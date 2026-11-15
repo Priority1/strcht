@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>strcht</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">strcht</a></h1>
+      <span id="status"></span>
+      <span class="spacer"></span>
+      <a href="/" class="copy">← all streams</a>
+    </header>
+    <div id="msg" class="msg">loading…</div>
+    <div class="watch" id="watch" hidden>
+      <div class="stage">
+        <video id="video" controls playsinline></video>
+        <div class="scrub" id="scrub" title="the recording — click to watch it from there">
+          <div class="track"><div class="fill" id="fill"></div><div class="edge" id="edge"></div></div>
+          <div class="tip" id="tip" hidden><img id="tip-img" alt="" /><span id="tip-time"></span></div>
+        </div>
+        <div class="controls">
+          <button id="b-live" title="what is on air now (what the beacon serves)">● LIVE</button>
+          <button id="b-vod" title="the whole recording, seekable">RECORDING</button>
+          <span class="stat" id="stat"></span>
+        </div>
+      </div>
+      <div class="side">
+        <div class="box"><h3 id="name"></h3><div id="about" class="mono"></div><div id="chips" style="margin-top: 8px"></div><ul id="notes"></ul></div>
+        <div class="box"><h2>renditions</h2><table id="rends"></table></div>
+        <div class="box"><h2>urls</h2><div id="urls"></div></div>
+        <div class="box"><h2>beacon record</h2><pre id="record"></pre></div>
+      </div>
+    </div>
+    <script src="/watch.js"></script>
+  </body>
+</html>
