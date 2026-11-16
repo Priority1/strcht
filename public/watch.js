@@ -4,6 +4,8 @@
 
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// the console's translation preset (presets.json): model, then the source it starts from
+const presetChip = (p) => p ? `<span class="chip model" title="translation preset for the console: model ${esc(p.translationModel)}, source ${esc(p.sourceLanguage)}${p.detectableLanguages?.length ? ' among ' + esc(p.detectableLanguages.join(', ')) : ''}">${p.translationModel === 'delta2' ? 'DELTA 2' : 'AUTO'} · ${esc(p.sourceLanguage)}</span>` : '';
 function clock(t) {
   t = Math.max(0, Math.floor(t));
   const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
@@ -134,7 +136,7 @@ function renderSide() {
   document.title = `${S.name} · strcht`;
   $('#name').textContent = S.name;
   $('#about').textContent = `${S.file} · ${S.width}×${S.height} · ${S.fps} fps · ${clock(S.duration)}`;
-  $('#chips').innerHTML = S.languages.map((l) => `<span class="chip">${esc(l)}</span>`).join('');
+  $('#chips').innerHTML = presetChip(S.preset) + S.languages.map((l) => `<span class="chip">${esc(l)}</span>`).join('');
   $('#notes').innerHTML = S.notes.map((n) => `<li>${esc(n)}</li>`).join('');
   const jobs = Object.entries(S.jobs).map(([n, j]) => `<tr><td>${esc(n)}</td><td colspan="4">${j.state === 'error' ? 'failed: ' + esc(j.error) : esc(j.state) + ' ' + Math.floor(j.pct) + '%'}</td></tr>`).join('');
   $('#rends').innerHTML = '<tr><th></th><th>size</th><th>fps</th><th>kbps</th><th>segment</th></tr>' + S.renditions.map((r) =>

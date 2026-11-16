@@ -98,6 +98,7 @@ def create_app(cfg: Config | None = None) -> FastAPI:
             "loop": loop,
             "languages": s.languages,
             "notes": s.notes,
+            **(s.preset or {}),        # sourceLanguage, detectableLanguages, translationModel (presets.json)
         }
 
     def master(s: Stream, playlist: str) -> Response:
@@ -199,7 +200,7 @@ def create_app(cfg: Config | None = None) -> FastAPI:
             "id": s.id, "name": s.name, "onAir": on_air, "file": s.src.name,
             "duration": s.period, "position": round(pos, 3), "loop": loop,
             "width": s.info.get("width"), "height": s.info.get("height"), "fps": s.info.get("fps"),
-            "languages": s.languages, "notes": s.notes,
+            "languages": s.languages, "notes": s.notes, "preset": s.preset,
             "thumbs": len(s.thumbs), "thumb": s.thumb_at(pos), "poster": s.poster,
             "jobs": {k: dict(v) for k, v in s.jobs.items() if v["state"] != "done"},
             "renditions": [{

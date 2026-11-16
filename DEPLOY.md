@@ -75,6 +75,7 @@ own image, settings and secrets (its Palabra API key); deploy it its own way and
 |---|---|
 | its beacon url variable | `<PUBLIC_URL or in-cluster address of strcht>/pinhole/list` |
 | its beacon token variable | the value of `PINHOLE_TOKEN`, when one is set |
+| presets | `presets.json` (in the image; `PRESETS_FILE` to use another) gives each video its source language and translation model — `delta2` for a fixed source Delta2 serves (en de es fr it nl pt ru), `auto` otherwise. The beacon carries them as `sourceLanguage`, `detectableLanguages`, `translationModel`; the console starts that stream's session with them and shows `Translation model: DELTA 2` / `AUTO` in its status line. Edits are picked up within 30 s |
 | reachability | the console's **server** reads the beacon and the streams; the viewer's **browser** plays the streams from `PUBLIC_URL` directly (CORS is open) |
 
 To show the console without names it was written for, start it through `console/skin.py` of this repository

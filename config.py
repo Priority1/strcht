@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent
 class Config:
     media_dir: Path = Path("~/Downloads/Mayflower").expanduser()   # *.mp4 here are the streams (not recursive)
     data_dir: Path = ROOT / "data"                                 # segments, thumbnails, meta (rebuilt when missing)
+    presets_file: Path = ROOT / "presets.json"                     # translation preset per video, for the console
     host: str = "127.0.0.1"
     port: int = 8790
     public_url: str = ""          # base of the urls in /pinhole/list; empty = the Host the request came to
@@ -36,6 +37,7 @@ class Config:
         cfg = cls(
             media_dir=Path(env("MEDIA_DIR") or d.media_dir).expanduser(),
             data_dir=Path(env("DATA_DIR") or d.data_dir).expanduser(),
+            presets_file=Path(env("PRESETS_FILE") or d.presets_file).expanduser(),
             host=env("HOST") or d.host,
             port=int(env("PORT") or d.port),
             public_url=(env("PUBLIC_URL") or "").rstrip("/"),

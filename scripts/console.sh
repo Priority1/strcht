@@ -20,6 +20,7 @@
 #   SOURCE_LANG / DETECTABLE_LANGS   what the speakers speak. The recordings are in several languages, often
 #                       two in one stream, so the default is detection among the languages the beacon names
 #                       (description.txt). SOURCE_LANG=ru ./scripts/console.sh pins one.
+#                       A video with a preset (presets.json) overrides both, and the model, for its own session.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 ours() { [ -f "$HERE/.env" ] && sed -n "s/^$1=//p" "$HERE/.env" | tail -1 || true; }

@@ -3,6 +3,8 @@
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// the console's translation preset (presets.json): model, then the source it starts from
+const presetChip = (p) => p ? `<span class="chip model" title="translation preset for the console: model ${esc(p.translationModel)}, source ${esc(p.sourceLanguage)}${p.detectableLanguages?.length ? ' among ' + esc(p.detectableLanguages.join(', ')) : ''}">${p.translationModel === 'delta2' ? 'DELTA 2' : 'AUTO'} · ${esc(p.sourceLanguage)}</span>` : '';
 const pad5 = (n) => String(n).padStart(5, '0');
 function clock(t) {
   t = Math.max(0, Math.floor(t));
@@ -70,7 +72,7 @@ function update(c, s, now) {
     $('.none', el).hidden = !!n;
     if (n) img.src = `/thumbs/${encodeURIComponent(s.id)}/${pad5(n)}.jpg`;
   }
-  $('.chips', el).innerHTML = s.languages.map((l) => `<span class="chip">${esc(l)}</span>`).join('') + esc(s.notes.join(' · '));
+  $('.chips', el).innerHTML = presetChip(s.preset) + s.languages.map((l) => `<span class="chip">${esc(l)}</span>`).join('') + esc(s.notes.join(' · '));
   $('.chips', el).title = s.notes.join('\n');
   tick(c);
 }

@@ -1,0 +1,22 @@
+{
+  "_about": [
+    "Translation preset per video, handed to the console in the beacon (sourceLanguage, detectableLanguages, translationModel).",
+    "Keys are video names (file name without extension, matched like description.txt). A video without a preset gets none: the console uses its own .env task.",
+    "source: one language code, or auto (then detectable lists what to detect among, most frequent first).",
+    "model: delta2 only for a source Delta2 serves (en de es fr it nl pt ru), with a fixed source; auto for everything else.",
+    "Sources and detectable lists come from the transcripts of the 2026-10-06 and 2026-10-12 runs (segments per detected language)."
+  ],
+  "2badforyou":            {"source": "en",   "model": "delta2"},
+  "anita1976":             {"source": "auto", "model": "auto", "detectable": ["es", "en"]},
+  "ArieliciousXXX":        {"source": "auto", "model": "auto", "detectable": ["en", "es"]},
+  "aus_queen":             {"source": "en",   "model": "delta2"},
+  "Clarasense":            {"source": "fr",   "model": "delta2"},
+  "CutieShy":              {"source": "en",   "model": "delta2"},
+  "EveryTokenIsImportant": {"source": "auto", "model": "auto", "detectable": ["en", "ru", "de", "fr"]},
+  "fit_vic":               {"source": "auto", "model": "auto", "detectable": ["it", "en"]},
+  "HugeBoobsAlice":        {"source": "auto", "model": "auto", "detectable": ["ru", "en"]},
+  "Kate_Town":             {"source": "auto", "model": "auto", "detectable": ["en", "ru"]},
+  "Madoka_0116":           {"source": "ja",   "model": "auto"},
+  "Sexy_Sparkling":        {"source": "de",   "model": "delta2"},
+  "Stella_Kink":           {"source": "auto", "model": "auto", "detectable": ["en", "de"]}
+}

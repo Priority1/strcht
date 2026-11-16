@@ -9,7 +9,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py config.py library.py live.py ./
+COPY app.py config.py library.py live.py presets.py presets.json ./
 COPY public ./public
 # the layer for a console on top (see DEPLOY.md); not used by this service itself
 COPY console ./console
