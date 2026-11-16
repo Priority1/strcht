@@ -33,6 +33,13 @@ def test_load(tmp_path):
     assert presets.load(tmp_path / "p.json") == {"A": {"sourceLanguage": "ru", "detectableLanguages": [], "translationModel": "delta2"}}
 
 
+def test_shipped_presets_name_one_source_each():
+    """Every video is spoken in a language named here: none is left to detection."""
+    for name, p in presets.load(ROOT / "presets.json").items():
+        assert p["sourceLanguage"] != "auto" and not p["detectableLanguages"], name
+        assert p["translationModel"] == ("delta2" if p["sourceLanguage"] in presets.DELTA2_SOURCES else "auto"), name
+
+
 def test_shipped_presets_are_as_written():
     """presets.json says what it means: nothing in it is corrected on load."""
     raw = {k: v for k, v in json.loads((ROOT / "presets.json").read_text()).items() if not k.startswith("_")}
