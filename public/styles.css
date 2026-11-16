@@ -39,6 +39,7 @@ header .spacer { flex: 1; }
 .meta .time { color: var(--dim); font-family: var(--mono); font-size: 12px; white-space: nowrap; }
 .chips { padding: 2px 11px 10px; min-height: 30px; color: var(--dim); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chip { display: inline-block; margin-right: 5px; padding: 0 6px; border-radius: 9px; border: 1px solid var(--line); color: var(--fg); font-family: var(--mono); font-size: 11px; text-transform: uppercase; }
+.chip.model { border-color: var(--acc); color: var(--acc); }
 .empty { padding: 60px 20px; color: var(--dim); text-align: center; }
 
 /* ── watch ── */

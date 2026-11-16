@@ -28,6 +28,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import live
+import presets
 from config import Config
 
 VERSION = 1                                   # bump to rebuild every cache
@@ -237,6 +238,7 @@ class Stream:
         self.jobs: dict[str, dict] = {}         # thumbs | lo | hi → {state, pct, error}
         self.notes: list[str] = []
         self.languages: list[str] = []
+        self.preset: dict | None = None         # translation preset for the console (presets.json), None = its own
 
     def ready(self) -> list[Rendition]:
         """Renditions on air, lowest bandwidth first."""
@@ -352,6 +354,21 @@ class Library:
             all_notes = notes.get(sid, [])
             s.notes = [n for n in all_notes if not n.lower().startswith("duration")]
             s.languages = languages_of(all_notes)
+        table = self._presets()
+        found = match_descriptions(list(self.streams), table)
+        for sid, s in self.streams.items():
+            s.preset = found.get(sid)
+
+    def _presets(self) -> dict[str, dict]:
+        """presets.json, read again when it changes."""
+        f = self.cfg.presets_file
+        try:
+            stamp = f.stat().st_mtime_ns
+        except OSError:
+            stamp = None
+        if getattr(self, "_presets_stamp", object()) != stamp:
+            self._presets_stamp, self._presets_table = stamp, presets.load(f) if stamp is not None else {}
+        return self._presets_table
 
     def _load(self, s: Stream) -> None:
         """Take over what DATA_DIR already holds for this file; probe the file when it holds nothing."""

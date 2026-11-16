@@ -38,6 +38,13 @@ def media(tmp_path_factory):
     return d
 
 
+@pytest.fixture(scope="module")
+def preset_file(tmp_path_factory):
+    f = tmp_path_factory.mktemp("presets") / "presets.json"
+    f.write_text('{"_about": "x", "Alpha_One": {"source": "de", "model": "delta2"}}')
+    return f
+
+
 def wait_built(c, timeout=120):
     t0 = time.time()
     while time.time() - t0 < timeout:
@@ -49,8 +56,9 @@ def wait_built(c, timeout=120):
 
 
 @pytest.fixture(scope="module", params=["encode", "copy"])
-def client(request, media, tmp_path_factory):
-    cfg = Config(media_dir=media, data_dir=tmp_path_factory.mktemp("data"), hi_mode=request.param, workers=2)
+def client(request, media, preset_file, tmp_path_factory):
+    cfg = Config(media_dir=media, data_dir=tmp_path_factory.mktemp("data"), presets_file=preset_file,
+                 hi_mode=request.param, workers=2)
     with TestClient(create_app(cfg)) as c:
         c.cfg = cfg
         wait_built(c)
@@ -70,6 +78,8 @@ def test_beacon(client):
     assert a["languages"] == ["de", "en"] and a["notes"] == ["Native german speech", "Not native english speech"]
     assert 5.9 < a["durationSeconds"] < 6.2 and 0 <= a["positionSeconds"] < a["durationSeconds"]
     assert recs[1]["languages"] == []
+    assert (a["sourceLanguage"], a["detectableLanguages"], a["translationModel"]) == ("de", [], "delta2")
+    assert "translationModel" not in recs[1]                   # no preset: the console keeps its own task
 
 
 def test_beacon_token(media, client):
